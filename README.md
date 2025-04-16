@@ -32,5 +32,5 @@ Usage of doki:
 2. Clone the repository: `git clone https://github.com/wavy-cat/doki`
 3. In the project directory, run: `go build -trimpath -ldflags="-s -w" -o doki github.com/wavy-cat/doki/cmd/main`
 
-> [!INFO]
+> [!NOTE]
 > If you're using Windows, the output file should be named `doki.exe` instead of `doki`.
