@@ -30,7 +30,7 @@ Usage of doki:
 
 1. Download and install Go from the [official website](https://go.dev/dl/).
 2. Clone the repository: `git clone https://github.com/wavy-cat/doki`
-3. In the project directory, run: `go build -trimpath -ldflags="-s -w" -o doki cmd/main/main.go`
+3. In the project directory, run: `go build -trimpath -ldflags="-s -w" -o doki github.com/wavy-cat/doki/cmd/main`
 
 > [!INFO]
 > If you're using Windows, the output file should be named `doki.exe` instead of `doki`.
