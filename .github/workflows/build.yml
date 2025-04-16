@@ -1,0 +1,84 @@
+name: Build
+
+on:
+  push:
+    branches:
+      - master
+    paths-ignore:
+      - 'README.md'
+      - 'LICENSE'
+      - '.gitignore'
+      - '.vscode'
+
+env:
+  GO_VERSION: 1.24.1
+
+jobs:
+  vet:
+    name: "go vet"
+    runs-on: ubuntu-24.04-arm
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: ${{ env.GO_VERSION }}
+
+      - name: Run go vet
+        run: go vet -v ./...
+
+  test:
+    name: "go test"
+    runs-on: ubuntu-24.04-arm
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: ${{ env.GO_VERSION }}
+
+      - name: Run go test
+        run: go test -v ./...
+
+  build:
+    name: "Compile the binaries"
+    runs-on: ubuntu-24.04-arm
+    needs: [ vet, test ]
+    strategy:
+      matrix:
+        os: [linux, windows, darwin, freebsd, netbsd, openbsd]
+        arch: ['386', amd64, arm, arm64]
+    steps:
+      - name: Checkout repository
+        if: matrix.os != 'darwin' || (matrix.arch != '386' && matrix.arch != 'arm')
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        if: matrix.os != 'darwin' || (matrix.arch != '386' && matrix.arch != 'arm')
+        uses: actions/setup-go@v5
+        with:
+          go-version: ${{ env.GO_VERSION }}
+
+      - name: Build
+        if: matrix.os != 'darwin' || (matrix.arch != '386' && matrix.arch != 'arm')
+        env:
+          GOOS: ${{ matrix.os }}
+          GOARCH: ${{ matrix.arch }}
+          CGO_ENABLED: 0
+        run: |
+          output_name="bin/doki-$GOOS-$GOARCH"
+          if [ "$GOOS" = "windows" ]; then
+            output_name="$output_name.exe"
+          fi
+          go build -v -trimpath -ldflags="-s -w" -o "$output_name" github.com/wavy-cat/doki/cmd/main
+
+      - name: Upload artifacts
+        if: matrix.os != 'darwin' || (matrix.arch != '386' && matrix.arch != 'arm')
+        uses: actions/upload-artifact@v4
+        with:
+          name: binary-${{ matrix.os }}-${{ matrix.arch }}
+          path: bin/
