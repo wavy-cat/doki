@@ -1,5 +1,9 @@
 # doki
 
+![GitHub go.mod Go version](https://img.shields.io/github/go-mod/go-version/wavy-cat/doki?style=for-the-badge&logo=go&logoColor=white&labelColor=1A222E&color=242B36)
+![GitHub License](https://img.shields.io/github/license/wavy-cat/doki?style=for-the-badge&labelColor=1A222E&color=242B36)
+![GitHub repo size](https://img.shields.io/github/repo-size/wavy-cat/doki?style=for-the-badge&logo=github&logoColor=white&labelColor=1A222E&color=242B36&cacheSeconds=0)
+
 A minimalistic and fast port knocker written in Go.
 
 ---
