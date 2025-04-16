@@ -76,6 +76,16 @@ jobs:
           fi
           go build -v -trimpath -ldflags="-s -w" -o "$output_name" github.com/wavy-cat/doki/cmd/main
 
+      - name: Generate checksum
+        if: matrix.os != 'darwin' || (matrix.arch != '386' && matrix.arch != 'arm')
+        run: |
+          output_name="bin/doki-${{ matrix.os }}-${{ matrix.arch }}"
+          if [ "${{ matrix.os }}" = "windows" ]; then
+            output_name="$output_name.exe"
+          fi
+          checksum_file="$output_name.sha256"
+          sha256sum "$output_name" > "$checksum_file"
+
       - name: Upload artifacts
         if: matrix.os != 'darwin' || (matrix.arch != '386' && matrix.arch != 'arm')
         uses: actions/upload-artifact@v4
