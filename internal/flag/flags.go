@@ -34,6 +34,10 @@ func Parse() (Flags, error) {
 		return Flags{}, fmt.Errorf("no address or domain specified")
 	}
 
+	if len(ports) == 0 {
+		return Flags{}, fmt.Errorf("no ports specified")
+	}
+
 	return Flags{
 		Address:      *address,
 		Domain:       *domain,
