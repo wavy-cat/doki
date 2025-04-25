@@ -26,12 +26,11 @@ func main() {
 			address, err = lookup.GetIPRecord(flags.Domain)
 		}
 
-		address = fmt.Sprintf("[%s]", address)
-
 		if err != nil {
 			log.Fatalf("error when retrieving a record from DNS: %v", err)
 		}
 	}
+	address = fmt.Sprintf("[%s]", address)
 
 	for _, port := range flags.Ports {
 		err = scanner.ScanPort(address, port, flags.Timeout)
