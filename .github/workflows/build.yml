@@ -92,3 +92,22 @@ jobs:
         with:
           name: binary-${{ matrix.os }}-${{ matrix.arch }}
           path: bin/
+
+  release:
+    name: "Create GitHub Release"
+    runs-on: ubuntu-24.04-arm
+    needs: build
+    permissions:
+      contents: write
+    steps:
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: release-artifacts
+
+      - name: Create release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.sha }}
+          name: Release ${{ github.sha }}
+          files: release-artifacts/**
