@@ -50,7 +50,7 @@ jobs:
     needs: [ vet, test ]
     strategy:
       matrix:
-        os: [linux, windows, darwin, freebsd, netbsd, openbsd]
+        os: [linux, windows, darwin, freebsd, netbsd, openbsd, android]
         arch: ['386', amd64, arm, arm64]
         exclude:
           - arch: '386'
