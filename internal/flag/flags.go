@@ -23,7 +23,7 @@ func Parse() (Flags, error) {
 		domain  = flag.String("domain", "", "Target domain name")
 		useIPv4 = flag.Bool("4", false, "Force use IPv4 protocol")
 		useIPv6 = flag.Bool("6", false, "Force use IPv6 protocol")
-		timeout = flag.Duration("timeout", 10*time.Millisecond, "Maximum time to establish a connection")
+		timeout = flag.Duration("timeout", 30*time.Millisecond, "Maximum time to establish a connection")
 		ignore  = flag.Bool("ignore-errors", false, "Ignore errors when establishing a connection")
 	)
 
