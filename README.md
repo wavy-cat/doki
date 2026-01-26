@@ -15,19 +15,20 @@ Precompiled binaries are available on the [releases page](https://github.com/wav
 To see all available flags, run `./doki -h`:
 
 ```
-Usage of doki:
-  -4    Force use IPv4 protocol
-  -6    Force use IPv6 protocol
-  -address string
-        Target IP address
-  -domain string
-        Target domain name
-  -ignore-errors
-        Ignore errors when establishing a connection
-  -ports value
-        Comma-separated list of ports (0-65535 range)
-  -timeout duration
-        Maximum time to establish a connection (default 10ms)
+A minimalistic and fast port knocker.
+
+Usage:
+  doki [flags]
+
+Flags:
+      --address string     Target IP address
+      --domain string      Target domain name
+  -h, --help               help for doki
+      --ignore-errors      Ignore errors when establishing a connection
+  -4, --ipv4               Force use IPv4 protocol
+  -6, --ipv6               Force use IPv6 protocol
+      --ports ports        Comma-separated list of ports (0-65535 range)
+      --timeout duration   Maximum time to establish a connection (default 30ms)
 ```
 
 ## Building from Source

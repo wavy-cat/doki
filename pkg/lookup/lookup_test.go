@@ -167,7 +167,6 @@ func TestLookup(t *testing.T) {
 	for _, tc := range tests {
 		tc := tc // захват в локальную переменную
 		t.Run(tc.name, func(t *testing.T) {
-			t.Parallel()
 			restore := setMockLookupIP(tc.mock)
 			defer restore()
 			tc.testFunc(t)

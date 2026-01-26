@@ -6,13 +6,17 @@ import (
 	"time"
 )
 
+var dialTimeout = net.DialTimeout
+
 func ScanPort(host string, port uint16, timeout time.Duration) error {
 	target := fmt.Sprintf("%s:%d", host, port)
-	conn, err := net.DialTimeout("tcp", target, timeout)
+	conn, err := dialTimeout("tcp", target, timeout)
 	if err != nil {
 		return err
 	}
 
-	conn.Close()
+	if err := conn.Close(); err != nil {
+		return err
+	}
 	return nil
 }
