@@ -1,0 +1,55 @@
+name: Release
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - CHANGELOG.md
+
+env:
+  GO_VERSION: 1.25.6
+
+jobs:
+  build:
+    name: "Compile and publish"
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Set up Go
+        uses: actions/setup-go@v6
+        with:
+          go-version: ${{ env.GO_VERSION }}
+
+      - name: Install dependencies
+        run: go mod download
+
+      - name: Get the latest version
+        id: latest
+        uses: miniscruff/changie-action@v2
+        with:
+          version: latest
+          args: latest
+
+      - name: Create and push git tag
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git tag ${{ steps.latest.outputs.output }}
+          git push origin ${{ steps.latest.outputs.output }}
+
+      - name: Run GoReleaser
+        uses: goreleaser/goreleaser-action@v6
+        with:
+          distribution: goreleaser
+          version: "~> v2"
+          args: release --release-notes=".changes/${{ steps.latest.outputs.output }}.md" --clean
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
