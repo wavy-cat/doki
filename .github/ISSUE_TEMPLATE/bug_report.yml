@@ -50,13 +50,13 @@ body:
         - OpenBSD
         - FreeBSD
         - Android
+        - Other
 
   - type: dropdown
     id: arch
     attributes:
       label: Architecture
       options:
-        - x86-64
         - x86
-        - arm64
-        - arm
+        - ARM
+        - Other
